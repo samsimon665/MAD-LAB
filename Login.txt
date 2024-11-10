@@ -1,0 +1,111 @@
+activity_main.xml
+
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/main"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".MainActivity">
+
+    <!-- Login Text -->
+    <TextView
+        android:id="@+id/logintext"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/login"
+        android:textAlignment="center"
+        android:textSize="24sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        android:layout_marginTop="32dp" />
+
+    <!-- Username Input -->
+    <com.google.android.material.textfield.TextInputEditText
+        android:id="@+id/username"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:hint="@string/username"
+        app:layout_constraintTop_toBottomOf="@id/logintext"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_marginTop="32dp"
+        android:paddingStart="16dp"
+        android:paddingEnd="16dp" />
+
+    <!-- Password Input -->
+    <com.google.android.material.textfield.TextInputEditText
+        android:id="@+id/password"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:hint="@string/password"
+        android:inputType="textPassword"
+        app:layout_constraintTop_toBottomOf="@id/username"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_marginTop="16dp"
+        android:paddingStart="16dp"
+        android:paddingEnd="16dp" />
+
+    <!-- Login Button -->
+    <Button
+        android:id="@+id/loginbutton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/submit"
+        app:layout_constraintTop_toBottomOf="@id/password"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_marginTop="32dp" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>
+
+MainActivity.kt
+package com.example.login
+
+import android.os.Bundle
+import android.widget.Button
+import android.widget.TextView
+import android.widget.Toast
+import androidx.appcompat.app.AppCompatActivity
+import com.google.android.material.textfield.TextInputEditText
+
+class MainActivity : AppCompatActivity() {
+    // Declare UI elements
+    lateinit var username: TextInputEditText
+    lateinit var password: TextInputEditText
+    lateinit var loginButton: Button
+    lateinit var loginText: TextView
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+
+        // Set the content view to your layout
+        setContentView(R.layout.activity_main)
+
+        // Initialize the UI elements using findViewById
+        username = findViewById(R.id.username)
+        password = findViewById(R.id.password)
+        loginButton = findViewById(R.id.loginbutton)
+        loginText = findViewById(R.id.logintext)
+
+        // Set up the insets to handle system bars (status bar, navigation bar)
+        val mainLayout = findViewById<androidx.constraintlayout.widget.ConstraintLayout>(R.id.main)
+        mainLayout.setOnApplyWindowInsetsListener { v, insets ->
+            val systemBars = insets.getInsets(androidx.core.view.WindowInsetsCompat.Type.systemBars())
+            v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom)
+            insets
+        }
+
+        // Set OnClickListener for the login button
+        loginButton.setOnClickListener {
+            if (username.text.toString() == "admin" && password.text.toString() == "admin") {
+                Toast.makeText(this, "Login Successful", Toast.LENGTH_SHORT).show()
+            } else {
+                Toast.makeText(this, "Login Failed", Toast.LENGTH_SHORT).show()
+            }
+        }
+    }
+}
